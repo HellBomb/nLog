@@ -1,5 +1,36 @@
 Function Write-nLog {
-   Param (
+    <#
+        .SYNOPSIS
+            Standardized & Easy to use logging function.
+
+        .DESCRIPTION
+            Easy and highly functional logging function that can be dropped into any script to add logging capability with hindering script performance.
+
+        .PARAMETER type
+            Set the event level of the log event. 
+
+            [Options] 
+                Info, Warning, Error, Debug
+        
+        .PARAMETER message
+            Set the event level of the log event.
+
+        .INPUTS
+            None
+
+        .OUTPUTS
+            None
+
+        .NOTES
+        VERSION     DATE			NAME						DESCRIPTION
+	    ___________________________________________________________________________________________________________
+	    1.0         25 May 2020		NRW							Initial version
+
+        Credits:
+            (1) Script Template: https://gist.github.com/9to5IT/9620683
+    #>
+    [CmdletBinding()]
+    Param (
         [Parameter(Mandatory=$True,Position=0)]
         [ValidateSet('Debug','Error','Warning','Info')]
         [String]$Type,
@@ -123,5 +154,4 @@ Function Write-nLog {
     }
 
 }
-Write-nLog -Type Info -Message test
-Get-Variable -Include "*nLog*" -Scope Script |FT
+Get-Help Write-nLog -full
