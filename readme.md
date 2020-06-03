@@ -3,6 +3,4 @@
 
 ## Project Overview
 
-
-
-[![GitHub release](https://img.shields.io/github/release/HellBomb/nLog.svg)](https://GitHub.com/HellBomb/nLogs/releases/)
+[![GitHub release](https://img.shields.io/github/release/HellBomb/nLog.svg)](https://GitHub.com/HellBomb/nLog/releases/)
