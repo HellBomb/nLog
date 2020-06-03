@@ -5,3 +5,4 @@
 
 
 
+[![GitHub release](https://img.shields.io/github/release/HellBomb/nLog.svg)](https://GitHub.com/HellBomb/nLogs/releases/)
