@@ -99,7 +99,7 @@ Function Write-nLog {
         [Switch]$Initialize,
         [Parameter(Mandatory=$False,ValueFromPipeline=$False)][ValidateRange(1,5)]
         [Int]$SetLogLevel,
-        [Parameter(Mandatory=$False,ValueFromPipeline=$False)][ValidateScript({Test-Path $_})]
+        [Parameter(Mandatory=$False,ValueFromPipeline=$False)]
         [String]$SetLogFile,
         [Parameter(Mandatory=$False,ValueFromPipeline=$False)]
         [Bool]$SetWriteHost,
@@ -141,7 +141,7 @@ Function Write-nLog {
             Set-Variable -Name nLogWriteLog -Value $SetWriteLog -Force -Scope Script
         }
         IF ($PSBoundParameters.ContainsKey('SetLogFile')) {
-            Set-Variable -Name nLogWriteLog -Value $SetLogFile -Force -Scope Script
+            Set-Variable -Name nLogFile -Value $SetLogFile -Force -Scope Script
         }
 
         #Determine log level
@@ -168,13 +168,12 @@ Function Write-nLog {
         $tDifference = " ($(((New-TimeSpan -Start $Script:nLogLastTimeStamp -End $tTimeStamp).Seconds).ToString(`"0000`"))`s)"
 
         if ($tWriteLog -and $tLog) {
-            If (![System.IO.File]::Exists($Script:nLogFile)) {
+            If (-NOT [System.IO.File]::Exists($Script:nLogFile)) {
                 New-Item -Path (Split-path $Script:nLogFile -Parent) -Name (Split-path $Script:nLogFile -Leaf) -Force -ErrorAction Stop
             }
             $tLogWriter = [System.IO.StreamWriter]::New($Script:nLogFile,"Append")
         }
     }
-
     Process {
         IF ($tLog) {
             IF ($tWriteHost) { 
@@ -182,13 +181,12 @@ Function Write-nLog {
             }
         
             IF ($tWriteLog)  {
-                $LogWriter.WriteLine("$tTimeStampString$tDifference`t$tErrorCode$Message")
+                $tLogWriter.WriteLine("$tTimeStampString$tDifference`t$tErrorCode$Message")
             }
             #Ensure we have the timestamp of the last log execution.
             Set-Variable -Name nLogLastTimeStamp -Scope Script -Value $tTimeStamp -Force
         }
     }
-
     End {
         if ($tWriteLog -and $tLog) {
             $tLogWriter.Flush()
@@ -203,5 +201,4 @@ Function Write-nLog {
             Exit
         }
     }
-
 }
